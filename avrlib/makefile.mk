@@ -202,7 +202,7 @@ include $(DEP_FILE)
 # Midi files for firmware update
 # ------------------------------------------------------------------------------
 
-HEX2SYSEX = python tools/hex2sysex/hex2sysex.py
+HEX2SYSEX = python3 tools/hex2sysex/hex2sysex.py
 
 $(BUILD_DIR)%.mid: $(BUILD_DIR)%.hex
 	$(HEX2SYSEX) $(SYSEX_FLAGS) -o $@ $<
@@ -256,7 +256,7 @@ flash_restore:
 RESOURCE_COMPILER = avrlib/tools/resources_compiler.py
 
 resources:	$(wildcard $(RESOURCES)/*.py) 
-		python $(RESOURCE_COMPILER) $(RESOURCES)/resources.py
+		python3 $(RESOURCE_COMPILER) $(RESOURCES)/resources.py
 
 # ------------------------------------------------------------------------------
 # Publish a firmware version on the website
