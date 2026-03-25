@@ -38,9 +38,9 @@ class Filter {
   static const prog_AppInfo app_info_;
  
  private:
-  static uint8_t channel_enabled_[16];
-  
-  DISALLOW_COPY_AND_ASSIGN(Filter);
+   static uint8_t channel_enabled_[17];
+   
+   DISALLOW_COPY_AND_ASSIGN(Filter);
 };
 
 } }  // namespace midipal::apps
