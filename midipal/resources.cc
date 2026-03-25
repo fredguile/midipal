@@ -51,7 +51,7 @@ static const prog_char str_res_settings[] PROGMEM = "settings";
 static const prog_char str_res_notenuke[] PROGMEM = "notenuke";
 static const prog_char str_res_sysxdump[] PROGMEM = "sysxdump";
 static const prog_char str_res__reset_[] PROGMEM = "!reset!";
-static const prog_char str_res___v1_4__[] PROGMEM = "¥ v1.4 ¥";
+static const prog_char str_res___v1_4__[] PROGMEM = "ï¿½ v1.4 ï¿½";
 static const prog_char str_res_sndoff[] PROGMEM = "sndOff";
 static const prog_char str_res_rstctr[] PROGMEM = "rstCtr";
 static const prog_char str_res_lclctr[] PROGMEM = "lclCtr";
@@ -254,7 +254,7 @@ static const prog_char str_res_fre[] PROGMEM = "fre";
 static const prog_char str_res_prg[] PROGMEM = "prg";
 
 
-PROGMEM const prog_char* string_table[] = {
+PROGMEM const prog_char* const string_table[] = {
   str_res_syncltch,
   str_res_polyseq,
   str_res_arpeggio,
@@ -652,7 +652,7 @@ const prog_uint16_t lut_res_increments[] PROGMEM = {
 };
 
 
-PROGMEM const prog_uint16_t* lookup_table_table[] = {
+PROGMEM const prog_uint16_t* const lookup_table_table[] = {
   lut_res_arpeggiator_patterns,
   lut_res_drum_patterns,
   lut_res_groove_swing,

@@ -22,3 +22,50 @@ A midi in, a midi out, a small display, an encoder ; 20 awesome features:
 * Slave start/stop synchronizer (à la Mungo Sync)
 * Scale processor / harmonizer
 * Ear training game
+
+## Building
+
+### Prerequisites
+
+Install the AVR toolchain for your system:
+
+**Ubuntu/Debian:**
+```bash
+sudo apt install gcc-avr avr-libc avrdude
+```
+
+**Fedora:**
+```bash
+sudo dnf install avr-gcc avr-libc avrdude
+```
+
+**Arch Linux:**
+```bash
+sudo pacman -S avr-gcc avr-libc avrdude
+```
+
+Python is also required (usually already installed).
+
+### Build
+
+Build the firmware:
+```bash
+make AVRLIB_TOOLS_PATH=/usr/bin/
+```
+
+The compiled firmware will be output to `build/midipal/midipal.hex`.
+
+### Other make targets
+
+- `make AVRLIB_TOOLS_PATH=/usr/bin/ midi` - Generate MIDI file for firmware update
+- `make AVRLIB_TOOLS_PATH=/usr/bin/ syx` - Generate SysEx file for firmware update
+- `make AVRLIB_TOOLS_PATH=/usr/bin/ size` - Show code size statistics (fun output!)
+
+### Flashing
+
+To flash the firmware to your device, connect your programmer and run:
+```bash
+make AVRLIB_TOOLS_PATH=/usr/bin/ upload
+```
+
+Adjust `PROGRAMMER` and `PROGRAMMER_PORT` variables in `avrlib/makefile.mk` if needed.
