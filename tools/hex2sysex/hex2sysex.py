@@ -69,12 +69,12 @@ def CreateMidifile(
   # first SysEx block everytime stop/play is pressed.
   time = 1
   syx_data = []
-  for i in xrange(0, size, page_size):
-    block = ''.join(map(chr, data[i:i+page_size]))
+  for i in range(0, size, page_size):
+    block = bytes(data[i:i+page_size])
     padding = page_size - len(block)
-    block += '\x00' * padding
+    block += b'\x00' * padding
     mfr_id = options.manufacturer_id if not \
-        options.force_obsolete_manufacturer_id else '\x00\x20\x77'
+        options.force_obsolete_manufacturer_id else b'\x00\x20\x77'
     event = midifile.SysExEvent(
         mfr_id,
         struct.pack('>h', options.device_id),
@@ -90,7 +90,7 @@ def CreateMidifile(
   t.AddEvent(time, event)
   syx_data.append(event.raw_message)
   
-  f = file(output_file, 'wb')
+  f = open(output_file, 'wb')
   if options.syx:
     f.write(''.join(syx_data))
   else:
@@ -125,7 +125,7 @@ if __name__ == '__main__':
       '-m',
       '--manufacturer_id',
       dest='manufacturer_id',
-      default='\x00\x21\x02',
+      default=b'\x00\x21\x02',
       help='Manufacturer ID to use in SysEx message')
   parser.add_option(
       '-b',
@@ -145,13 +145,13 @@ if __name__ == '__main__':
       '-u',
       '--update_command',
       dest='update_command',
-      default='\x7e\x00',
+      default=b'\x7e\x00',
       help='OS update SysEx command')
   parser.add_option(
       '-r',
       '--reset_command',
       dest='reset_command',
-      default='\x7f\x00',
+      default=b'\x7f\x00',
       help='Post-OS update reset SysEx command')
   parser.add_option(
       '-s',
@@ -173,7 +173,7 @@ if __name__ == '__main__':
     logging.fatal('Specify one, and only one firmware .hex file!')
     sys.exit(1)
 
-  data = hexfile.LoadHexFile(file(args[0]))
+  data = hexfile.LoadHexFile(open(args[0]))
   if not data:
     logging.fatal('Error while loading .hex file')
     sys.exit(2)

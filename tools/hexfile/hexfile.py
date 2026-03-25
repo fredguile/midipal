@@ -25,11 +25,13 @@ import logging
 import sys
 
 
-def LoadHexFile(lines):
+def LoadHexFile(f):
   """Loads a Hex file."""
   base_address = None
   offset = 0
   data = []
+  lines = f.readlines()
+  f.close()
   for line_number, line in enumerate(lines):
     line = line.strip()
     if len(line) < 9:
@@ -40,7 +42,7 @@ def LoadHexFile(lines):
       logging.info('Line %(line_number)d: unknown character' % locals())
       return None
 
-    bytes = [int(line[i:i+2], 16) for i in xrange(1, len(line), 2)]
+    bytes = [int(line[i:i+2], 16) for i in range(1, len(line), 2)]
     if bytes[0] != len(bytes) - 5:
       logging.info('Line %(line_number)d: invalid byte count' % locals())
       return None
@@ -74,7 +76,7 @@ def LoadHexFile(lines):
 def WriteHexFile(data, file_object, chunk_size=32):
   """Writes a Hex file."""
 
-  for address in xrange(0, len(data), chunk_size):
+  for address in range(0, len(data), chunk_size):
     chunk = data[address:address+chunk_size]
     chunk_len = len(chunk)
     address_l = address & 255
