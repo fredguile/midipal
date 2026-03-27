@@ -92,7 +92,7 @@ def CreateMidifile(
   
   f = open(output_file, 'wb')
   if options.syx:
-    f.write(''.join(syx_data))
+    f.write(b''.join(syx_data))
   else:
     m.Write(f, format=1)
   f.close()

@@ -31,3 +31,6 @@ env/
 
 # OS X crap
 .DS_Stor?
+
+# build
+build/
