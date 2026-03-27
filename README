@@ -63,9 +63,38 @@ The compiled firmware will be output to `build/midipal/midipal.hex`.
 
 ### Flashing
 
-To flash the firmware to your device, connect your programmer and run:
+There are two ways to flash firmware to MIDIpal:
+
+#### Method 1: Using a Programmer (ISP)
+
+To flash firmware to your device, connect your programmer and run:
 ```bash
 make AVRLIB_TOOLS_PATH=/usr/bin/ upload
 ```
 
 Adjust `PROGRAMMER` and `PROGRAMMER_PORT` variables in `avrlib/makefile.mk` if needed.
+
+#### Method 2: Using SysEx or MIDI File
+
+You can update the firmware without a programmer by sending it via MIDI.
+
+1. **Generate the firmware file:**
+   - For SysEx: `make AVRLIB_TOOLS_PATH=/usr/bin/ syx` → `build/midipal/midipal.syx`
+   - For MIDI file: `make AVRLIB_TOOLS_PATH=/usr/bin/ midi` → `build/midipal/midipal.mid`
+
+2. **Put MIDIpal in update mode:**
+   - Keep the encoder pressed while powering on MIDIpal
+   - You'll see MIDI in and MIDI out LEDs rapidly blink in sequence
+   - The MIDI in LED will stay on - the device is ready to receive update
+
+3. **Send the firmware:**
+   - Send the `.syx` or `.mid` file to MIDIpal's MIDI IN
+   - Use a 250ms (or more) delay between SysEx packets
+   - The MIDI in LED blinks on every received packet
+   - Update takes about 1 minute (up to 256 packets)
+   - The update can be restarted in case of accident during transmission
+
+4. **Completion:**
+   - Upon reception of the last packet, MIDIpal immediately boots with the new firmware
+
+**Tip:** For SysEx transfers, we recommend [Elektron's C6 tool](http://www.elektron.se/support-and-downloads) (available for Windows and OS X) with proper timing settings.
