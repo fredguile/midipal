@@ -73,8 +73,8 @@ def CreateMidifile(
     block = bytes(data[i:i+page_size])
     padding = page_size - len(block)
     block += b'\x00' * padding
-    mfr_id = options.manufacturer_id if not \
-        options.force_obsolete_manufacturer_id else b'\x00\x20\x77'
+    mfr_id = options.manufacturer_id if options.manufacturer_id else \
+        b'\x00\x20\x77'
     event = midifile.SysExEvent(
         mfr_id,
         struct.pack('>h', options.device_id),
@@ -125,8 +125,8 @@ if __name__ == '__main__':
       '-m',
       '--manufacturer_id',
       dest='manufacturer_id',
-      default=b'\x00\x21\x02',
-      help='Manufacturer ID to use in SysEx message')
+      default='',
+      help='Manufacturer ID to use in SysEx message (default: MI ID)')
   parser.add_option(
       '-b',
       '--obsolete_manufacturer_id',
