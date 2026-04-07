@@ -535,11 +535,11 @@ static inline int16_t S16S8MulShift8(int16_t a, int8_t b) {
 }
 
 static inline uint8_t InterpolateSample(
-    const prog_uint8_t* table,
+    const uint8_t* table,
     uint16_t phase) __attribute__((always_inline));
 
 static inline uint8_t InterpolateSample(
-    const prog_uint8_t* table,
+    const uint8_t* table,
     uint16_t phase) {
   uint8_t result;
   uint8_t work;
@@ -732,7 +732,7 @@ static inline uint16_t U16U8MulShift8(uint16_t a, uint8_t b) {
 }
 
 static inline uint8_t InterpolateSample(
-    const prog_uint8_t* table,
+    const uint8_t* table,
     uint16_t phase) {
   return U8Mix(
       pgm_read_byte(table + (phase >> 8)),

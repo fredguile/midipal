@@ -31,18 +31,18 @@
 namespace avrlib {
 
 template<
-  const prog_char* const* strings,
-  const prog_uint16_t* const* lookup_tables>
+  const char* const* strings,
+  const uint16_t* const* lookup_tables>
 struct ResourcesTables {
-  static inline const prog_char* const* string_table() { return strings; }
-  static inline const prog_uint16_t* const* lookup_table_table() {
+  static inline const char* const* string_table() { return strings; }
+  static inline const uint16_t* const* lookup_table_table() {
       return lookup_tables;
   }
 };
 
 struct NoResourcesTables {
-  static inline const prog_char* const* string_table() { return NULL; }
-  static inline const prog_uint16_t* const* lookup_table_table() { return NULL; }
+  static inline const char* const* string_table() { return NULL; }
+  static inline const uint16_t* const* lookup_table_table() { return NULL; }
 };
 
 template<typename ResourceId = uint8_t, typename Tables = NoResourcesTables>
@@ -68,22 +68,22 @@ class ResourcesManager {
   }
 
   template<typename ResultType, typename IndexType>
-  static inline ResultType Lookup(const prog_char* p, IndexType i) {
+  static inline ResultType Lookup(const char* p, IndexType i) {
     return ResultType(pgm_read_byte(p + i));
   }
 
   template<typename ResultType, typename IndexType>
-  static inline ResultType Lookup(const prog_uint8_t* p, IndexType i) {
+  static inline ResultType Lookup(const uint8_t* p, IndexType i) {
     return ResultType(pgm_read_byte(p + i));
   }
 
   template<typename ResultType, typename IndexType>
-  static inline ResultType Lookup(const prog_uint16_t* p, IndexType i) {
+  static inline ResultType Lookup(const uint16_t* p, IndexType i) {
     return ResultType(pgm_read_word(p + i));
   }
 
   template<typename T>
-  static void Load(const prog_char* p, uint8_t i, T* destination) {
+  static void Load(const char* p, uint8_t i, T* destination) {
     memcpy_P(destination, p + i * sizeof(T), sizeof(T));
   }
   

@@ -30,7 +30,7 @@ namespace midipal { namespace apps {
 
 using namespace avrlib;
 
-const prog_uint8_t tanpura_factory_data[8] PROGMEM = {
+const uint8_t tanpura_factory_data[8] PROGMEM = {
   0, 0, 120, 8, 0, 60, 0, 5
 };
 
@@ -203,7 +203,7 @@ void Tanpura::Start() {
 }
 
 const prog_int8_t shifts[] PROGMEM = { -5, -7, -1, 0 };
-const prog_uint8_t durations[] PROGMEM = { 5, 0, 0, 0, 0, 1, 1, 2 };
+const uint8_t durations[] PROGMEM = { 5, 0, 0, 0, 0, 1, 1, 2 };
 
 /* static */
 void Tanpura::Tick() {
