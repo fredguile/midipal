@@ -46,7 +46,7 @@ settings
 notenuke
 sysxdump
 !reset!
-\xa5FG 1.5\xa5
+ FG 1.5 
 
 sndOff
 rstCtr
