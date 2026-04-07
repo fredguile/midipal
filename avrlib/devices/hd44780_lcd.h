@@ -113,6 +113,7 @@ class Hd44780Lcd {
     SlowCommand(LCD_CLEAR);
     SlowCommand(LCD_HOME);
     transmitting_ = 0;
+    OutputBuffer::Flush();
   }
 
   static inline void Tick() {
@@ -133,6 +134,7 @@ class Hd44780Lcd {
       return 0;
     }
     OutputBuffer::Overwrite2(LCD_DATA | (c >> 4), LCD_DATA | (c & 0xf));
+    return 1;
   }
 
   static uint8_t WriteCommand(uint8_t c) {
@@ -140,10 +142,11 @@ class Hd44780Lcd {
       return 0;
     }
     OutputBuffer::Overwrite2(LCD_COMMAND | (c >> 4), LCD_COMMAND | (c & 0x0f));
+    return 1;
   }
   
   static inline uint8_t Write(uint8_t character) {
-    WriteData(character);
+    return WriteData(character);
   }
   
   static inline uint8_t Write(const char* s) {
@@ -151,6 +154,7 @@ class Hd44780Lcd {
       WriteData(*s);
       ++s;
     }
+    return 1;
   }
 
   static inline void MoveCursor(uint8_t row, uint8_t col) {
@@ -178,10 +182,11 @@ class Hd44780Lcd {
   }
   
   static inline void Flush() {
-    while (OutputBuffer::readable() || busy()) {
-      Tick();
-      ConstantDelay(1);
+    // Drain OutputBuffer using SlowWrite which we know works
+    while (OutputBuffer::readable()) {
+      SlowWrite(OutputBuffer::ImmediateRead());
     }
+    transmitting_ = 0;
   }
   
   static inline uint8_t writable() { return OutputBuffer::writable(); }
@@ -191,7 +196,7 @@ class Hd44780Lcd {
   
   static inline void ResetStatusCounter() { status_counter_ = 0; }
 
- private:
+ public:
   static inline void StartWrite(uint8_t nibble) {
     if (nibble & LCD_DATA) {
       RsPin::High();

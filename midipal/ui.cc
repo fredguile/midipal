@@ -126,7 +126,6 @@ void Ui::Poll() {
       queue_.AddEvent(CONTROL_POT, index, value);
     }
   }
-  lcd.Tick();
 }
 
 /* static */
@@ -239,12 +238,11 @@ void Ui::DoEvents() {
         app.GetParameter(page_),
         editing_);
   }
-  display.Tick();
 }
 
-static const prog_char note_names[] PROGMEM =      " CC# DD# E FF# GG# AA# B";
-static const prog_char note_names_flat[] PROGMEM = " CDb DEb E FGb GAb ABb B";
-static const prog_char octaves[] PROGMEM = "-012345678";
+static const char note_names[] PROGMEM =      " CC# DD# E FF# GG# AA# B";
+static const char note_names_flat[] PROGMEM = " CDb DEb E FGb GAb ABb B";
+static const char octaves[] PROGMEM = "-012345678";
 
 /* static */
 void Ui::PrintKeyValuePair(
@@ -346,7 +344,7 @@ void Ui::PrintNote(char* buffer, uint8_t note, bool flat) {
     ++octave;
     note -= 12;
   }
-  const prog_char* table = flat ? note_names_flat : note_names;
+  const char* table = flat ? note_names_flat : note_names;
   *buffer++ = ResourcesManager::Lookup<char, uint8_t>(
       table, note << 1);
   *buffer++ = ResourcesManager::Lookup<char, uint8_t>(

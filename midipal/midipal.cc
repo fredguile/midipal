@@ -22,6 +22,7 @@
 
 #include "midi/midi.h"
 #include "midipal/app.h"
+#include "midipal/display.h"
 #include "midipal/apps/settings.h"
 #include "midipal/clock.h"
 #include "midipal/event_scheduler.h"
@@ -40,7 +41,7 @@ MidiStreamParser<MidiHandler> midi_parser;
 
 volatile uint8_t num_clock_ticks = 0;
 
-ISR(TIMER2_OVF_vect, ISR_NOBLOCK) {
+ISR(TIMER2_OVF_vect) {
   static uint8_t sub_clock;
 
   if (midi_io.readable()) {
@@ -114,18 +115,24 @@ void Init() {
   
   ui.Init();
   clock.Init();
+  app.Init();
+  midi_io.Init();
   
-  // Configure the timers.
+  // Configure the timers LAST - starts ISRs which call lcd.Tick()
+  // LCD must be fully initialized before ISRs start
   Timer<1>::set_prescaler(1);
   Timer<1>::set_mode(0, _BV(WGM12), 3);
   PwmChannel1A::set_frequency(6510);
   Timer<1>::StartCompare();
   
+  // Re-initialize LCD to flush any queued writes from app.Init()
+  // and start with a clean known state before ISRs begin
+  lcd.Init();
+  display.Init();
+
   Timer<2>::set_prescaler(2);
   Timer<2>::set_mode(TIMER_PWM_PHASE_CORRECT);
   Timer<2>::Start();
-  app.Init();
-  midi_io.Init();
 }
 
 int main(void) {
@@ -133,5 +140,9 @@ int main(void) {
   Init();
   while (1) {
     ui.DoEvents();
+    for (uint8_t i = 0; i < 8; ++i) {
+      display.Tick();
+      Lcd::Flush();
+    }
   }
 }
