@@ -28,7 +28,7 @@ cc knob
 chordmem
 clock
 divider
-chnfiltr
+filter  
 chnmergr
 user prg
 dispatch
@@ -223,6 +223,7 @@ whl
 key
  
 stp
+strstp
 \x01
 \x02
 \x03

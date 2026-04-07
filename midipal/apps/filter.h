@@ -38,7 +38,7 @@ class Filter {
   static const prog_AppInfo app_info_;
  
  private:
-   static uint8_t channel_enabled_[17];
+   static uint8_t channel_enabled_[18];
    
    DISALLOW_COPY_AND_ASSIGN(Filter);
 };

@@ -26,16 +26,16 @@
 
 namespace midipal { namespace apps {
 
-const uint8_t filter_factory_data[17] PROGMEM = {
+const uint8_t filter_factory_data[18] PROGMEM = {
+  0, 0,
   1, 0, 0, 0,
   0, 0, 0, 0,
   0, 0, 0, 0,
-  0, 0, 0, 0,
-  0
+  0, 0, 0, 0
 };
 
 /* static */
-uint8_t Filter::channel_enabled_[17];
+uint8_t Filter::channel_enabled_[18];
 
 /* static */
 const prog_AppInfo Filter::app_info_ PROGMEM = {
@@ -62,7 +62,7 @@ const prog_AppInfo Filter::app_info_ PROGMEM = {
   NULL, // void (*SetParameter)(uint8_t, uint8_t);
   NULL, // uint8_t (*GetParameter)(uint8_t);
   NULL, // uint8_t (*CheckPageStatus)(uint8_t);
-  17, // settings_size
+  18, // settings_size
   SETTINGS_FILTER, // settings_offset
   channel_enabled_, // settings_data
   filter_factory_data, // factory_data
@@ -73,8 +73,9 @@ const prog_AppInfo Filter::app_info_ PROGMEM = {
 /* static */
 void Filter::OnInit() {
   lcd.SetCustomCharMapRes(chr_res_digits_10, 7, 1);
-  ui.AddRepeatedPage(UNIT_CHANNEL, STR_RES_OFF, 0, 1, 16);
   ui.AddPage(STR_RES_CLK, STR_RES_OFF, 0, 1);
+  ui.AddPage(STR_RES_STRSTP, STR_RES_OFF, 0, 1);
+  ui.AddRepeatedPage(UNIT_CHANNEL, STR_RES_OFF, 0, 1, 16);
 }
 
 /* static */
@@ -85,13 +86,16 @@ void Filter::OnRawMidiData(
    uint8_t accepted_channel) {
   uint8_t type = status & 0xf0;
   if (type == 0xf0) {
-    if (status == 0xf8 && channel_enabled_[16]) {
+    if (status == 0xf8 && !channel_enabled_[0]) {
+      return;
+    }
+    if ((status == 0xfa || status == 0xfb || status == 0xfc) && !channel_enabled_[1]) {
       return;
     }
     app.Send(status, data, data_size);
   } else {
     uint8_t channel = status & 0x0f;
-    if (channel_enabled_[channel]) {
+    if (channel_enabled_[channel + 2]) {
       app.Send(status, data, data_size);
     }
   }

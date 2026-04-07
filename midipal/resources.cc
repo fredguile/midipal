@@ -33,7 +33,7 @@ static const char str_res_cc_knob[] PROGMEM = "cc knob";
 static const char str_res_chordmem[] PROGMEM = "chordmem";
 static const char str_res_clock[] PROGMEM = "clock";
 static const char str_res_divider[] PROGMEM = "divider";
-static const char str_res_chnfiltr[] PROGMEM = "chnfiltr";
+static const char str_res_chnfiltr[] PROGMEM = "filter  ";
 static const char str_res_chnmergr[] PROGMEM = "chnmergr";
 static const char str_res_user_prg[] PROGMEM = "user prg";
 static const char str_res_dispatch[] PROGMEM = "dispatch";
@@ -203,6 +203,7 @@ static const char str_res_whl[] PROGMEM = "whl";
 static const char str_res_key[] PROGMEM = "key";
 static const char str_res__[] PROGMEM = "";
 static const char str_res_stp[] PROGMEM = "stp";
+static const char str_res_strstp[] PROGMEM = "strstp";
 static const char str_res_1[] PROGMEM = "";
 static const char str_res_2[] PROGMEM = "";
 static const char str_res_3[] PROGMEM = "";
@@ -439,6 +440,7 @@ const char* const string_table[] PROGMEM = {
   str_res_key,
   str_res__,
   str_res_stp,
+  str_res_strstp,
   str_res_1,
   str_res_2,
   str_res_3,
